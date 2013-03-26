@@ -122,6 +122,15 @@ def h(p,q,d,i=-1):
   else:
     return j(d, p+q+1, (q+1)*d - (p+q+2))
 
+def hvec(d,n,i=-1):
+  """Vector of Hodge humbers for a hypersurface
+  of degree d and dimeension n.  
+  >>> hvec(3,2)
+  [0, 6, 0]
+  >>> hvec(4,2)
+  [1,19,1]
+  """
+  return [h(n-q,q,d,i) for q  in range(0,n+1)]
 
 def betti(d,n):
   """Dimension of middle cohomology group
