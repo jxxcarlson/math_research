@@ -115,7 +115,7 @@ def echodge(k,d,m,i):
   return H
 
 
-# TESTS:
+# TESTS AND EXAMPLES:
 
 r"""
 
