@@ -3,24 +3,24 @@
 
 var('t')
 
-def pop1(d,q):
+def poincare_function(d,q):
   return simplify((1-t^d)/(1-t^q))
 
-def pop(L):
+def wpoincare_function(L):
   """
   Poincare polynomial for a regular sequence where
   L = [[d1, w1], [d2, w2], .. ] is a list of 
-  degrees and weights
+  degrees and weight
   """
   p = 1
   for pair in L:
     a, b = pair
-    p = p*pop1(a,b)
+    p = p*poincare_function(a,b)
   return expand(p)
 
-def jac(W,d):
+def jacobian_weights(d,W):
   """ 
-  jac( W, d ) is the list of degrees and weights for 
+  jacobian_weights(d,W ) is the list of degrees and weights for 
   the regular sequence obtained from a weighted homogeneous
   form of degree where W is the list of weights
   """
@@ -29,11 +29,11 @@ def jac(W,d):
     L.append( [d-weight, weight] )
   return L
     
-def pj(W,d):
+def pj(d,W):
   """
-  pj(W,d) = Poincare polynomial for Jacobian ring of poly of degre d
+  pj(d,W) = Poincare polynomial for Jacobian ring of poly of degre d
   """
-  return pop(jac(W,d))
+  return wpoincare_function(jacobian_weights(d,W))
    
 def  wmoduli(W,d):
   """
@@ -42,20 +42,27 @@ def  wmoduli(W,d):
   >>> wmoduli([1,1,1],3) # cubic curve
   1
   """
-  P = pj(W,d)
+  P = pj(d,W)
   T = P.taylor(t,0,d+1)
   return T.coefficient(t,d)
 
-def hodge(W,d):
+def hodge(d,W):
   """
-  Return vector of Hodge numbers for hypersurfce with
-  weights W and degree d.
-  >>> hodge([1,1,1], 3)
+  hodge(d,W): return vector of Hodge numbers for hypersurfce
+  of degree d and  weight.
+
+  hodge(d,n): return vector of Hodge numbersf for a hypersurface
+  of degree and dimension n
+
+  >>> hodge(3,[1,1,1])       # cubic curve
   [1, 1]
-  >>> hodge([1,1,1,1],4)
+
+  >>> hodge(4,[1,1,1,1])     # quartic surface
   [1, 19, 1]
   """
-  P = pj(W,d)                     #  Poincare polynomial
+  if type(W) == sage.rings.integer.Integer:
+    W = [1 for k in range(0,W+2)]
+  P = pj(d,W)                     #  Poincare polynomial
   n = len(W)                      # number of homogeneous variables
   vdeg = sum(W)
   tdeg = (n+1)*d - vdeg + 1
@@ -76,7 +83,7 @@ def chodge(k,d,m):
   """
   W = [1 for r in range(0,m+1)]
   W.append(d//k)
-  P = pj(W,d)                     #  Poincare polynomial
+  P = pj(d,W)                     #  Poincare polynomial
   n = len(W)                      # number of homogeneous variables
   vdeg = sum(W)
   tdeg = (n+1)*d - vdeg + 1
@@ -99,7 +106,7 @@ def echodge(k,d,m,i):
   [0, 1, 4, 0]
   """
   W = [1 for r in range(0,m+1)]
-  P = pj(W,d)                     #  Poincare polynomial
+  P = pj(d,W)                     #  Poincare polynomial
   n = len(W)                      # number of homogeneous variables
   vdeg = sum(W)
   tdeg = (n+1)*d - vdeg + 1
