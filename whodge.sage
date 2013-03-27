@@ -1,5 +1,15 @@
+"""
+whodge.sage: Computer hodge numbers of hypersurfaces
+in weighted projective spaces, and of cyclic covers.
+For the latter, compute also the hodge numbers of the 
+eigenspace of the covering automorphisms.
 
-# var('t,d,q')
+For examples, see the tests at the end of this file.
+To run the tests, do this:
+
+  $ sage -t whodge.sage
+
+"""
 
 var('t')
 
@@ -39,8 +49,6 @@ def  wmoduli(W,d):
   """
   wmoduli( W, d ) is the dimension of the moduli space of hypersurfaces
   of degree d with weights W
-  >>> wmoduli([1,1,1],3) # cubic curve
-  1
   """
   P = pj(d,W)
   T = P.taylor(t,0,d+1)
@@ -54,11 +62,6 @@ def hodge(d,W):
   hodge(d,n): return vector of Hodge numbersf for a hypersurface
   of degree and dimension n
 
-  >>> hodge(3,[1,1,1])       # cubic curve
-  [1, 1]
-
-  >>> hodge(4,[1,1,1,1])     # quartic surface
-  [1, 19, 1]
   """
   if type(W) == sage.rings.integer.Integer:
     W = [1 for k in range(0,W+2)]
@@ -78,8 +81,6 @@ def chodge(k,d,m):
   Return vector of Hodge numbers for a k-fold cyclic cover
   of P^m branched along a hypersurface of degree d, where
   k divides d.
-  >>> chodge(3,3,3) # 3-sheeted cyclic cover of P^3
-  [0, 5, 5, 0]
   """
   W = [1 for r in range(0,m+1)]
   W.append(d//k)
@@ -100,10 +101,6 @@ def echodge(k,d,m,i):
   Return vector of Hodge numbers for the i-th eigenspace 
   of a k-fold cyclic cover of P^m branched along 
   a hypersurface of degree d, where k divides d.
-  >>> echodge(3,3,3,1)  # cyclic cubic threefold
-  [0, 4, 1, 0]
-  >>> echodge(3,3,3,2)  # cyclic cubic threefold
-  [0, 1, 4, 0]
   """
   W = [1 for r in range(0,m+1)]
   P = pj(d,W)                     #  Poincare polynomial
@@ -117,8 +114,32 @@ def echodge(k,d,m,i):
     H.append(c)
   return H
 
-if __name__ == "__main__":
-  # SELF TEST (runs docstring at head of module):
-  from doctest import testmod
-  import whodge
-  testmod(whodge)
+
+# TESTS:
+
+r"""
+
+sage: wmoduli([1,1,1],3)     # moduli of cubic curves
+  1
+
+sage: hodge(3,[1,1,1])       # hdoge numbers of a cubic curve
+  [1, 1]
+
+sage: hodge(3,1)             # hdoge numbers of a cubic curve
+  [1, 1]
+
+sage: hodge(4,[1,1,1,1])     # hodge numbers of a quartic surface
+  [1, 19, 1]
+
+sage: chodge(3,3,3)          # 3-sheeted cyclic cover of P^3
+  [0, 5, 5, 0]
+
+sage: echodge(3,3,3,1)       # cyclic cubic threefold
+  [0, 4, 1, 0]
+
+sage: echodge(3,3,3,2)       # cyclic cubic threefold
+  [0, 1, 4, 0]
+
+
+"""
+
