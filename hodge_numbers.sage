@@ -158,28 +158,51 @@ def hodge(d, w, k=0, i=0):
 
 r"""
 
-sage: moduli(3, [1,1,1])     # moduli of cubic curves
+sage: moduli(3, [1,1,1])        # moduli of cubic curves
   1
 
-sage: moduli(3, 1)           # moduli of cubic curves
+sage: moduli(3, 1)              # moduli of cubic curves
   1
 
-sage: hodge(3,[1,1,1])       # hodge numbers of a cubic curve
+sage: moduli(4,2)               #  moduli of quartic surfaces
+  19
+
+sage: moduli(4, [1,1,1,1])      # as above
+  19
+
+sage: moduli(6, [1,1,3])        # double coversof P^1 branched at six points
+  3
+
+sage: moduli(6, [1, 2, 3])      # elliptic curves in P(1,2,3)
+  1
+
+
+
+sage: hodge(3,[1,1,1])           # hodge numbers of a cubic curve
   [1, 1]
 
-sage: hodge(3,1)             # hodge numbers of a cubic curve
+sage: hodge(3,1)                 # hodge numbers of a cubic curve
   [1, 1]
 
-sage: hodge(4,[1,1,1,1])     # hodge numbers of a quartic surface
+sage: hodge(4,[1,1,1,1])         # hodge numbers of a quartic surface
   [1, 19, 1]
 
-sage: hodge(3,3,3)           # 3-sheeted cyclic cover of P^3
+sage: hodge(4,2)                 #  as above
+  [1, 19, 1]
+
+sage: hodge(6, [1, 2, 3])        # elliptic curves in P(1,2,3)
+  [1, 1]
+
+sage: hodge(6,2,2)               # double covers of P^2 branched on a sextic curve
+  [1, 19, 1]
+
+sage: hodge(3,3,3)               # 3-sheeted cyclic cover of P^3
 [0, 5, 5, 0]
 
-sage: hodge(3,3,3,1)         # cyclic cubic threefold
+sage: hodge(3,3,3,1)             # cyclic cubic threefold
   [0, 4, 1, 0]
 
-sage: hodge(3,3,3,2)         # cyclic cubic threefold
+sage: hodge(3,3,3,2)              # cyclic cubic threefold
   [0, 1, 4, 0]
 
 
