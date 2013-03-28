@@ -1,6 +1,10 @@
 """
 hodge_numbers.sage
 
+Author: J. Carlson
+Date:   March 28, 2013
+URL:    www.math.utah.edu/~carlson
+
 Compute hodge numbers of hypersurfaces
 in weighted projective spaces, and of cyclic covers.
 For the latter, compute also the hodge numbers of the 
@@ -77,9 +81,9 @@ def  moduli(d,w):
 
   moduli(4, [1,1,1,1]) = 19       -- as above
 
-  sage: moduli(6, [1,1,3]) = 3    -- double coversof P^1 branched at six points
+  moduli(6, [1,1,3]) = 3    -- double coversof P^1 branched at six points
 
-  sage: moduli(6, [1, 2, 3]) = 1  -- elliptic curves in weighted projective space
+  moduli(6, [1, 2, 3]) = 1  -- elliptic curves in weighted projective space
 
   """
   if (type(w) == sage.rings.integer.Integer): # case of X of dim n in P^(n+1)
