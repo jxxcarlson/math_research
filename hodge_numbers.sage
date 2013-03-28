@@ -16,7 +16,8 @@ Then to ask for help/documentation:
 #  sage: hodge?
 #  sage: moduli?
 
-
+The functions 'hodge' and 'moduli' are the 
+main functions in this module.
 
 To run the tests, do this:
 
@@ -62,10 +63,24 @@ def  moduli(d,w):
   """
   moduli(d,w) is the dimension of the moduli space of hypersurfaces  of degree d 
   w can be a list of weights, e.g., moduli(6, [1,2,3]), or it can be a number,
-  e.g., moduli(3,1).  In the former case, moduli(d,w) is the number of moduli
-  of a hypersurface of degree d in a weighted projective spaces with weights w.
-  In the latter case, it is the number of moduli of a hypersurface of degree d
+  e.g., moduli(3,1).  
+
+  In the first case, moduli(d,w) is the number of moduli of a hypersurface 
+  of degree d in a weighted projective spaces with weights w.
+  
+  In the second case, it is the number of moduli of a hypersurface of degree d
   and dimension n.
+
+  Examples:
+
+  moduli(4,2) = 19                -- the number of moduli of quartic surfaces
+
+  moduli(4, [1,1,1,1]) = 19       -- as above
+
+  sage: moduli(6, [1,1,3]) = 3    -- double coversof P^1 branched at six points
+
+  sage: moduli(6, [1, 2, 3]) = 1  -- elliptic curves in weighted projective space
+
   """
   if (type(w) == sage.rings.integer.Integer): # case of X of dim n in P^(n+1)
     w = [1 for r in range(0,w+2)]
@@ -103,6 +118,23 @@ def hodge(d, w, k=0, i=0):
 
   hodge(d,n,k,i) = hodge vector for k-to-1 cyclic cover of P^n branched  along
   a hypersurface of degree d.
+
+  Examples:
+
+  hodge(4,2) = [1,19,1]           -- K3 surface
+
+  hodge(4,[1,1,1,1]) = [1,19,1]   -- as above
+
+  hodge(6, [1, 2, 3]) = [1,1]     -- elliptic curves in P(1,2,3)
+
+  hodge(6,2,2) = [1,19,1]         -- double covers of P^2 branched on a sextic curve
+
+  hodge(3,3,3) = [0, 5, 5, 0]     -- cyclic cubic threefold: branched cover of P^3
+
+  hodge(3,3,3,1) = [0, 4, 1, 0]   -- hodge numbers of an eigenspace of previous threefold
+
+  hodge(3,3,3,2) = [0, 1, 4, 0]   -- the other eigenspace
+
   """
   if (type(w) == sage.rings.integer.Integer) & (k==0): # case of X of dim n in P^(n+1)
     w = [1 for r in range(0,w+2)]
