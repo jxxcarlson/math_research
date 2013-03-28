@@ -1,10 +1,23 @@
 """
-whodge.sage: Compute hodge numbers of hypersurfaces
+hodge_numbers.sage
+
+Compute hodge numbers of hypersurfaces
 in weighted projective spaces, and of cyclic covers.
 For the latter, compute also the hodge numbers of the 
 eigenspaces of the covering automorphisms.
 
 For examples, see the tests at the end of this file.
+To load this package:
+
+#  sage: load('hodge_numbers.sage')
+
+Then to ask for help/documentation:
+
+#  sage: hodge?
+#  sage: moduli?
+
+
+
 To run the tests, do this:
 
   $ sage -t whodge.sage
@@ -45,12 +58,18 @@ def pj(d,W):
   """
   return poincare_function(jacobian_weights(d,W))
    
-def  moduli(d,W):
+def  moduli(d,w):
   """
-  moduli(d,W) is the dimension of the moduli space of hypersurfaces
-  of degree d with weights W
+  moduli(d,w) is the dimension of the moduli space of hypersurfaces  of degree d 
+  w can be a list of weights, e.g., moduli(6, [1,2,3]), or it can be a number,
+  e.g., moduli(3,1).  In the former case, moduli(d,w) is the number of moduli
+  of a hypersurface of degree d in a weighted projective spaces with weights w.
+  In the latter case, it is the number of moduli of a hypersurface of degree d
+  and dimension n.
   """
-  P = pj(d,W)
+  if (type(w) == sage.rings.integer.Integer): # case of X of dim n in P^(n+1)
+    w = [1 for r in range(0,w+2)]
+  P = pj(d,w)
   T = P.taylor(t,0,d+1)
   return T.coefficient(t,d)
 
@@ -106,10 +125,13 @@ r"""
 sage: moduli(3, [1,1,1])     # moduli of cubic curves
   1
 
-sage: hodge(3,[1,1,1])       # hdoge numbers of a cubic curve
+sage: moduli(3, 1)           # moduli of cubic curves
+  1
+
+sage: hodge(3,[1,1,1])       # hodge numbers of a cubic curve
   [1, 1]
 
-sage: hodge(3,1)             # hdoge numbers of a cubic curve
+sage: hodge(3,1)             # hodge numbers of a cubic curve
   [1, 1]
 
 sage: hodge(4,[1,1,1,1])     # hodge numbers of a quartic surface
@@ -118,10 +140,10 @@ sage: hodge(4,[1,1,1,1])     # hodge numbers of a quartic surface
 sage: hodge(3,3,3)           # 3-sheeted cyclic cover of P^3
 [0, 5, 5, 0]
 
-sage: hodge(3,3,3,1)       # cyclic cubic threefold
+sage: hodge(3,3,3,1)         # cyclic cubic threefold
   [0, 4, 1, 0]
 
-sage: hodge(3,3,3,2)       # cyclic cubic threefold
+sage: hodge(3,3,3,2)         # cyclic cubic threefold
   [0, 1, 4, 0]
 
 
