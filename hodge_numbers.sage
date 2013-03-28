@@ -154,11 +154,81 @@ def hodge(d, w, k=0, i=0):
   return HODGE(d,w,i)
 
 
+
+
+def betti(d,n):
+  """Dimension of middle cohomology group                 
+  for a hypersurface of degree d and dimenstion n.
+  """
+  b = sum(hodge(d,n))    # primitive middel cohomology
+  if n % 2 == 1:
+    return b
+  else:
+    return b + 1
+
+
+def euler_char(d,n):
+  """Euler characteristic of a hypersuerface of degree n
+  and dimension n.                                      
+  """
+  if n == 0:
+    return d
+  else:
+    return d*(n+1 - euler_char(d,n-1)) + euler_char(d,n-1)
+
+def dim_so(n):
+  """
+  Dimension of special orthogonal group.
+  """
+  return n*(n-1)//2
+
+def dim_u(n):
+  """
+  Dimension of the unitary group.                                                               
+  """
+  return n*n
+
+def dim_perdom(hv):
+  """Complex dimension of a period domain with given Hodge vector. """
+  n = sum(hv)
+  if len(hv) == 3:
+    p,q,r = hv
+    dim = dim_so(n) - dim_u(p) - dim_so(q)
+    return dim//2
+  else:
+    return -1
+
+def dim_horizontal(hv):
+  """Complex dimension of horiziontal tangent bundle."""
+  n = sum(hv)
+  if len(hv) == 3:
+    p,q,r = hv
+    return p*q
+  else:
+    return -1
+
+def dim_uherm(p,q):
+  """Complex dimension of U(p,q)/U(p)xU(q)"""
+  dim = dim_u(p+q) - dim_u(p) - dim_u(q)
+  return dim//2
+
+################################################################
+#
+#            Abbreviations
+#
+################################################################
+
+ech = euler_char
+dim_h = dim_horizontal
+
+################################################################
+#
 # TESTS AND EXAMPLES:
+#
+################################################################
+
 
 r"""
-
-
 ################################################################
 #
 #            Moduli
@@ -215,9 +285,56 @@ sage: hodge(3,3,3)               # 3-sheeted cyclic cover of P^3
 sage: hodge(3,3,3,1)             # cyclic cubic threefold
   [0, 4, 1, 0]
 
-sage: hodge(3,3,3,2)              # cyclic cubic threefold
+sage: hodge(3,3,3,2)             # cyclic cubic threefold
   [0, 1, 4, 0]
 
+################################################################
+#
+#            Topogy
+#
+################################################################
+
+sage: betti(3,1)                # cubic curve
+  2
+
+sage: betti(4,2)                # quartic surface
+  22
+
+sage: euler_char(3,1)           # cubic curve
+  0
+
+sage: ech(3,1)                  # the same (^)
+  0
+
+sage: ech(4,2)                   # 24 (XX: ALREADY?)
+  24
+
+################################################################
+#
+#            Period domains
+#
+################################################################
+
+sage: dim_so(3)
+  3
+
+sage: dim_so(2)
+  1
+
+sage: dim_u(2)
+  4
+
+sage: dim_u(1)
+  1
+
+sage: dim_perdom([1,19,1])
+  19
+
+sage: dim_perdom([2,3,2])
+  7
+
+sage: dim_uherm(1,4)
+  4
 
 ################################################################
 #
