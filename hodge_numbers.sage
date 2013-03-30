@@ -125,33 +125,45 @@ def hodge(d, w, k=0, i=0):
 
   Examples:
 
-  hodge(4,2) = [1,19,1]           -- K3 surface
+  hodge(4,2) = [1,19,1]            -- K3 surface
 
-  hodge(4,[1,1,1,1]) = [1,19,1]   -- as above
+  hodge(4,[1,1,1,1]) = [1,19,1]    -- as above
 
-  hodge(6, [1, 2, 3]) = [1,1]     -- elliptic curves in P(1,2,3)
+  hodge(6, [1, 2, 3]) = [1,1]      -- elliptic curves in P(1,2,3)
 
-  hodge(6,2,2) = [1,19,1]         -- double covers of P^2 branched on a sextic curve
+  hodge(6,2,2) = [1,19,1]          -- double covers of P^2 branched on a sextic curve
 
-  hodge(3,3,3) = [0, 5, 5, 0]     -- cyclic cubic threefold: branched cover of P^3
+  hodge(3,3,3) = [0, 5, 5, 0]      -- cyclic cubic threefold: branched cover of P^3
 
-  hodge(3,3,3,1) = [0, 4, 1, 0]   -- hodge numbers of an eigenspace of previous threefold
+  hodge(3,3,3,1) = [0, 4, 1, 0]    -- hodge numbers of an eigenspace of previous threefold
 
-  hodge(3,3,3,2) = [0, 1, 4, 0]   -- the other eigenspace
+  hodge(3,3,3,2) = [0, 1, 4, 0]    -- the other eigenspace
+
+  hodge(12,[1,2,3], 2) = [1, 13, 1] -- double cover of P(1,2,3) branched along a curve of degree 12
 
   """
-  if (type(w) == sage.rings.integer.Integer) & (k==0): # case of X of dim n in P^(n+1)
-    w = [1 for r in range(0,w+2)]
+  if (type(w) == sage.rings.integer.Integer): # we construct the weight vector
+    
+    if (k==0): # case of X of dim n in P^(n+1)
+      W = [1 for r in range(0,w+2)]
    
-  if (type(w) == sage.rings.integer.Integer) & (k>0) & (i==0): # k-sheeted cyclic cover of P^n
-    w = [1 for r in range(0,w+1)]
-    w.append(d//k)
+    if (k>0) & (i==0): # k-sheeted cyclic cover of P^n
+      W = [1 for r in range(0,w+1)]
+      W.append(d//k)
 
-  if (type(w) == sage.rings.integer.Integer) & (k>0) & (i>0): # k-sheeted cyclic cover of P^n
-    w = [1 for r in range(0,w+1)]
-    i = i*(d//k)
-  
-  return HODGE(d,w,i)
+    if (k>0) & (i>0): # k-sheeted cyclic cover of P^n
+      W = [1 for r in range(0,w+1)]
+      i = i*(d//k)
+
+  else: # the weight vector is given
+
+    W = w
+
+    if (k > 0) & (i==0): # k-sheeted cyclic cover of P(w)
+      W.append(d/k) 
+
+
+  return HODGE(d,W,i)
 
 
 
@@ -287,6 +299,9 @@ sage: hodge(3,3,3,1)             # cyclic cubic threefold
 
 sage: hodge(3,3,3,2)             # cyclic cubic threefold
   [0, 1, 4, 0]
+
+sage: hodge(12,[1,2,3], 2)       # double cover of P(1,2,3) branched along a curve of degree 12
+  [1, 13, 1]
 
 ################################################################
 #
