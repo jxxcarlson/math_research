@@ -144,14 +144,14 @@ def hodge(d, w, k=0, i=0):
   """
   if (type(w) == sage.rings.integer.Integer): # we construct the weight vector
     
-    if (k==0): # case of X of dim n in P^(n+1)
+    if k==0: # case of X of dim n in P^(n+1)
       W = [1 for r in range(0,w+2)]
    
-    if (k>0) & (i==0): # k-sheeted cyclic cover of P^n
+    if k>0: # k-sheeted cyclic cover of P^n
       W = [1 for r in range(0,w+1)]
       W.append(d//k)
 
-    if (k>0) & (i>0): # k-sheeted cyclic cover of P^n
+    if i>0: # k-sheeted cyclic cover of P^n
       W = [1 for r in range(0,w+1)]
       i = i*(d//k)
 
@@ -162,6 +162,8 @@ def hodge(d, w, k=0, i=0):
     if (k > 0) & (i==0): # k-sheeted cyclic cover of P(w)
       W.append(d/k) 
 
+    if i > 0: # compute i-th eigenspace of covering automorphism
+      i = (d//k)*i
 
   return HODGE(d,W,i)
 
@@ -302,6 +304,16 @@ sage: hodge(3,3,3,2)             # cyclic cubic threefold
 
 sage: hodge(12,[1,2,3], 2)       # double cover of P(1,2,3) branched along a curve of degree 12
   [1, 13, 1]
+
+sage: hodge(12,[1,2,3], 3)       # triple cover of P(1,2,3) branched along a curve of degree 12
+  [2, 24, 2]
+
+sage: hodge(12,[1,2,3],3,1)      # as above, first eigenspace
+  [2, 12, 0]
+
+sage: hodge(12,[1,2,3],3,2)      # as above, second eigenspace
+  [0, 12, 2]
+
 
 ################################################################
 #
