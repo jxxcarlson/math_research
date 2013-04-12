@@ -9,6 +9,10 @@ Code for helping with math research (Hodge theory)
      in weighted projective space.  Also compute hodge numbers for cyclic
      covers and hodge numbers of the eigenspaces of the covering automorphism.
 
+  3. shioda.sage: for computing quantities associated with the character
+     spaces which decompose the primitive cohomology of the  Fermat
+     hypersurface.
+
 (2) is better developed than (1), and (2) does everything that (1) does.
 To download sage (free), go to http://sagemath.org
 
