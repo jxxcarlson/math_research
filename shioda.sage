@@ -63,13 +63,12 @@ class Character:
   with a flag that signals whether chacacater space is spanned
   by a Hodge cycle:
 
-  sage: foo = hodge_chars(2,5)
-  sage: foo
-    [[(3, 3, 2, 2) mod 5, True],
-    [(3, 3, 3, 1) mod 5, False],
-    [(4, 2, 2, 2) mod 5, False],
-    [(4, 3, 2, 1) mod 5, True],
-    [(4, 4, 1, 1) mod 5, True]]
+    print(hodge_chars(2,5))==> 
+      [[(3, 3, 2, 2) mod 5, True],
+      [(3, 3, 3, 1) mod 5, False],
+      [(4, 2, 2, 2) mod 5, False],
+      [(4, 3, 2, 1) mod 5, True],
+      [(4, 4, 1, 1) mod 5, True]]
   """
 
   def __init__(self, vector, modulus): # self, tuple, integer
@@ -179,7 +178,7 @@ def character_classes(n, d, weight):
   monoms = filter(has_positive_degrees, monoms)
   chars = []
   for m in monoms:
-    chars.append(Character(tuple(m), d))
+    chars.append((Character(tuple(m), d), Permutations(m).cardinality()))
   return chars
 
 def hodge_chars(n,d):
@@ -193,7 +192,7 @@ def hodge_chars(n,d):
   chars = character_classes(n,d,weight)
   value = []
   for char in chars:
-    value.append([char, char.hodge()])
+    value.append(char +  (char[0].hodge(),))
   return value
 
 def print_list(L):
@@ -234,11 +233,17 @@ def print_list(L):
   sage: c.ht()
     (14/5, -4/5)
 
-  sage: foo = hodge_chars(2,5)
-  sage: foo
-    [[(3, 3, 2, 2) mod 5, True],
-    [(3, 3, 3, 1) mod 5, False],
-    [(4, 2, 2, 2) mod 5, False],
-    [(4, 3, 2, 1) mod 5, True],
-    [(4, 4, 1, 1) mod 5, True]]
+  sage: print_list(character_classes(2,5,10))
+   ((3, 3, 2, 2) mod 5, 6)
+   ((3, 3, 3, 1) mod 5, 4)
+   ((4, 2, 2, 2) mod 5, 4)
+   ((4, 3, 2, 1) mod 5, 24)
+   ((4, 4, 1, 1) mod 5, 6)
+
+   sage: print_list(hodge_chars(2,5))
+   ((3, 3, 2, 2) mod 5, 6, True)
+   ((3, 3, 3, 1) mod 5, 4, False)
+   ((4, 2, 2, 2) mod 5, 4, False)
+   ((4, 3, 2, 1) mod 5, 24, True)
+   ((4, 4, 1, 1) mod 5, 6, True)
   """
