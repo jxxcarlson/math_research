@@ -59,6 +59,7 @@ class Character:
   last to weight spaces.
 
   """
+
   def __init__(self, vector, modulus): # self, tuple, integer
     self.vector = vector
     self.modulus = modulus
@@ -116,6 +117,69 @@ class Character:
       # print(c)
     return value
 
+def is_ordered(vector):
+  value = True
+  for i in range(1, len(vector)):
+    if vector[i] > vector[i-1]:
+      value = False
+  return value
+
+def has_positive_degrees(vector):
+  value = True
+  for i in range(0, len(vector)):
+    if vector[i] < 1:
+      value = False
+  return value
+
+def monomials(n, d, weight):
+  degrees = [d for k in range(0,n+2)]
+  value = []
+  for monomial in mrange(degrees):
+    if sum(monomial) == weight:
+      value.append(monomial)
+  return value
+
+def monomial_classes(n, d, weight):
+  monoms = monomials(n, d, weight)
+  value = []
+  for m in monoms:
+    if is_ordered(m):
+      value.append(m)
+  return value
+
+def characters(n, d, weight):
+  monoms = monomials(n, d, weight)
+  monoms = filter(has_positive_degrees, monoms)
+  chars = []
+  for m in monoms:
+    chars.append(Character(tuple(m), d))
+  return chars
+
+def character_classes(n, d, weight):
+  monoms = monomial_classes(n, d, weight)
+  monoms = filter(has_positive_degrees, monoms)
+  chars = []
+  for m in monoms:
+    chars.append(Character(tuple(m), d))
+  return chars
+
+def hodge_chars(n,d):
+  if n % 2 == 1:
+    return []
+  p = n//2
+  weight = (p+1)*d
+  chars = character_classes(n,d,weight)
+  value = []
+  for char in chars:
+    value.append([char, char.hodge()])
+  return value
+
+def print_list(L):
+  for item in L:
+    print(item)
+
+
+
 
   r"""
   sage: c1 = Character((4,4,1,1), 5)
@@ -148,4 +212,11 @@ class Character:
   sage: c.ht()
     (14/5, -4/5)
 
+  sage: foo = hodge_chars(2,5)
+  sage: foo
+    [[(3, 3, 2, 2) mod 5, True],
+    [(3, 3, 3, 1) mod 5, False],
+    [(4, 2, 2, 2) mod 5, False],
+    [(4, 3, 2, 1) mod 5, True],
+    [(4, 4, 1, 1) mod 5, True]]
   """
