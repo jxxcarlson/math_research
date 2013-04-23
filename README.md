@@ -13,6 +13,10 @@ Code for helping with math research (Hodge theory)
      spaces which decompose the primitive cohomology of the  Fermat
      hypersurface.
 
+  4. quintic_fields.sage: for finding totally real quintic fields which
+     produce cubic surfaces as in J. A. Carlson and D. Toledo, Cubic 
+     Surfaces with Special Periods, Proc. Amer. Math. Soc. 141 (2013), 1947-1962.
+
 (2) is better developed than (1), and (2) does everything that (1) does.
 To download sage (free), go to http://sagemath.org
 
