@@ -20,6 +20,6 @@ Code for helping with math research (Hodge theory)
 (2) is better developed than (1), and (2) does everything that (1) does.
 To download sage (free), go to http://sagemath.org
 
-These modules replace the old Maple code in Hodgepack.
+(1) and (2) replace the old Maple code in Hodgepack.
 
 
